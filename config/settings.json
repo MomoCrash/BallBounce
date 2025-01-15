@@ -1,0 +1,42 @@
+{
+    "projects": {
+        "BallBounceClient": {
+            "dependencies": [
+                "BallBounceCore"
+            ],
+            "dependents": [],
+            "guid": "17FB0E47-731C-1164-2466-65422AB82124",
+            "lib": false,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        },
+        "BallBounceCore": {
+            "dependencies": [],
+            "dependents": [
+                "BallBounceClient",
+                "BallBounceServer"
+            ],
+            "guid": "186777D0-71E9-2F4D-5603-5F703BEF27CC",
+            "lib": true,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        },
+        "BallBounceServer": {
+            "dependencies": [
+                "BallBounceCore"
+            ],
+            "dependents": [],
+            "guid": "2B3F7D5D-6242-2987-1AC9-370402BE2CFD",
+            "lib": false,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        }
+    },
+    "solution_guid": "17201138-2FB8-7792-18E1-618F7C221F43",
+    "solution_name": "BallBounceServer",
+    "startup_project": "BallBounceServer",
+    "version": "1.17.3"
+}
