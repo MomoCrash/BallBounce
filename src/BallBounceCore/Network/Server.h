@@ -1,14 +1,24 @@
 #pragma once
+#include <map>
 #include <vector>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/System/Vector2.hpp>
 
 #include "UDPSocket.h"
 
+struct Vector2
+{
+    float x, y;
+};
+
+struct Color
+{
+    int r, g, b;
+};
+
 struct ServerData
 {
-    std::vector<sf::Vector2f> ballsPosition;
-    std::vector<sf::Color> ballsColors;
+    std::map<char, int> clientSessions;
+    std::vector<Vector2> ballsPosition;
+    std::vector<Color> ballsColors;
 };
 
 class Server : public UDPSocket

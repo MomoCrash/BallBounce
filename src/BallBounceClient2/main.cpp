@@ -12,7 +12,7 @@ int main()
     clientSocket.Connect();
     clientSocket.OpenSession(2229);
     
-    Game ballGame = Game(&clientSocket, 500, 500, 'a');
+    Game ballGame = Game(&clientSocket, 500, 500, 'b');
     ballGame.Loop();
     
 }

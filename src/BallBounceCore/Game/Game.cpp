@@ -1,5 +1,9 @@
 #include "Game.h"
 
+#include <iostream>
+
+#include "windows.h"
+
 Ball::Ball(float x, float y, float radius) : sf::CircleShape(radius), direction(10, 10), velocity(std::sqrt(direction.x * direction.x + direction.y * direction.y))
 {
     setOutlineThickness(4);
@@ -19,15 +23,15 @@ sf::Vector2f& Ball::GetDirection()
     return direction;
 }
 
-Game::Game(UDPSocket* socket, int width, int height)
+Game::Game(UDPSocket* socket, int width, int height, char id)
     : window(sf::VideoMode(width, height), "Bouncing ball"),
       m_ball(width / 2, height / 2, 10.0f),
       m_socket(socket),
       m_Width(width),
       m_height(height),
-      m_ballRadius(16.0f)
-{
-}
+      m_ballRadius(16.0f),
+      gameId(id)
+{}
 
 void Game::Loop()
 {
@@ -65,12 +69,14 @@ void Game::Loop()
                 new_pos.y = m_height - m_ball.getRadius();
             }
             m_ball.setPosition(new_pos);
-            char buf[8];
-
+            
+            char buf[10];
             int x = m_ball.getPosition().x;
             int y = m_ball.getPosition().y;
+
             memcpy(buf, &x, 4);
             memcpy(buf+4, &y, 4);
+            *(buf+8) = gameId;
             
             m_socket->Send(buf);
 

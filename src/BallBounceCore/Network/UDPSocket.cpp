@@ -61,14 +61,6 @@ void UDPSocket::OpenSession(u_short portDst)
        this,
        0,
        &receiveChannel);
-
-    HANDLE thread2 = CreateThread(
-       nullptr,
-       0,
-       SendChannel,
-       this,
-       0,
-       &sendChannel);
     
 }
 
@@ -82,13 +74,15 @@ void UDPSocket::Send(char buf[])
     }
 }
 
-char* UDPSocket::GetSocketBuffer()
+std::queue<char*>& UDPSocket::GetDatas()
 {
-    return socket_buffer;
+    return m_buffer;
 }
 
 DWORD WINAPI UDPSocket::ReceiveChannel(LPVOID lpParam)
 {
+    char socket_buffer[1024];
+    
     UDPSocket* socket = static_cast<UDPSocket*>(lpParam);
     std::cout << socket->receiver.sin_port;
     std::string received;
@@ -100,10 +94,19 @@ DWORD WINAPI UDPSocket::ReceiveChannel(LPVOID lpParam)
         int iResult;
         do
         {
-            iResult = recvfrom(socket->m_udpSocket, socket->socket_buffer, 1024, 0, reinterpret_cast<sockaddr*>(&from), &fromlen);
+            iResult = recvfrom(socket->m_udpSocket, socket_buffer, 1024, 0, reinterpret_cast<sockaddr*>(&from), &fromlen);
             if (iResult > 0)
             {
-                received += socket->socket_buffer;
+
+                int id;
+
+                memcpy(&id, socket_buffer, 1);
+                
+                if (socket_buffer)
+                
+                EnterCriticalSection(&socket->m_section);
+                socket->m_buffer.push(socket_buffer);
+                LeaveCriticalSection(&socket->m_section);
             }
             else if ( iResult == 0 )
             {
@@ -123,7 +126,8 @@ DWORD WINAPI UDPSocket::ReceiveChannel(LPVOID lpParam)
     }
 }
 
-DWORD WINAPI UDPSocket::SendChannel(LPVOID lpParam)
+// Not used
+/*DWORD WINAPI UDPSocket::SendChannel(LPVOID lpParam)
 {
     UDPSocket* socket = static_cast<UDPSocket*>(lpParam);
     std::cin.ignore();
@@ -143,5 +147,4 @@ DWORD WINAPI UDPSocket::SendChannel(LPVOID lpParam)
             }
         }
     }
-}
-
+}*/ 

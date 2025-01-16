@@ -11,11 +11,23 @@
             "vcpkg": true,
             "window": false
         },
+        "BallBounceClient2": {
+            "dependencies": [
+                "BallBounceCore"
+            ],
+            "dependents": [],
+            "guid": "36606089-19F3-1236-175B-6BCD79C54924",
+            "lib": false,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        },
         "BallBounceCore": {
             "dependencies": [],
             "dependents": [
                 "BallBounceClient",
-                "BallBounceServer"
+                "BallBounceServer",
+                "BallBounceClient2"
             ],
             "guid": "186777D0-71E9-2F4D-5603-5F703BEF27CC",
             "lib": true,

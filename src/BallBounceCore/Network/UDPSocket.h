@@ -25,6 +25,9 @@ typedef int socklen_t;
 #define SOCKET int
 #define INVALID_SOCKET ((int)-1)
 #endif
+#pragma comment(lib, "Rpcrt4.lib")
+
+#include <queue>
 #include <string>
 
 class UDPSocket
@@ -38,7 +41,7 @@ private:
     PCSTR adress;
     CRITICAL_SECTION m_section;
 
-    char socket_buffer[1024];
+    std::queue<char*> m_buffer;
 
 public:
 
@@ -49,9 +52,9 @@ public:
     void OpenSession(u_short portDst);
     void Send(char buf[]);
 
-    char* GetSocketBuffer() ;
+    std::queue<char*>& GetDatas() ;
     
     static DWORD WINAPI ReceiveChannel( LPVOID lpParam );
-    static DWORD WINAPI SendChannel ( LPVOID lpParam );
+    //static DWORD WINAPI SendChannel ( LPVOID lpParam );
     
 };

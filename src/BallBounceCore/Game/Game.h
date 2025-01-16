@@ -1,8 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
-#include "Network/UDPSocket.h"
+#include "../Network/UDPSocket.h"
 
 class Ball : public sf::CircleShape
 {
@@ -18,12 +17,14 @@ private:
 class Game
 {
 public:
-    Game(UDPSocket* socket, int width, int height);
+    Game(UDPSocket* socket, int width, int height, char id);
     void Loop();
 private:
     sf::RenderWindow window;
     Ball m_ball;
     UDPSocket* m_socket;
+    char gameId;
+    
     int m_Width;
     int m_height;
     float m_ballRadius;
